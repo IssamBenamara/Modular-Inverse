@@ -200,3 +200,61 @@ def graphMyGCD( intRange ):
 """ affichage courbes de complexité """    
 #graphMyInverse(100)
 #graphMyGCD(1000)
+
+
+
+""" Exponentiation discrète binaire """
+
+def my_expo_mod( g, n, N ):
+    """
+    input:
+    g = entier
+    n = entier
+    N = entier
+    --------------
+    output:
+    
+    h = (g ** n) % N   ===       ( g puissance n ) mod N 
+    """
+    h = 1
+    
+    #construction de la liste en binaire de n ( son ordre est deja du plus grand exposant au plus petit )
+    a_List = list("{0:b}".format(n)) # ATTENTION liste de char et non pas d'entiers
+
+    for ai in a_List: 
+        h = (h*h)%N
+        if( ai == '1' ): # comparaison avec un char, car la a_Liste contient des char
+            h = (h*g)%N
+            
+    return h
+    
+    
+""" ecriture alternative de l'exponentiation modulaire """
+def power(x, y, p) : 
+    """ https://www.geeksforgeeks.org/modular-exponentiation-power-in-modular-arithmetic/ """
+    res = 1     # Initialize result 
+    # Update x if it is more 
+    # than or equal to p 
+    x = x % p  
+  
+    while (y > 0) : 
+          
+        # If y is odd, multiply 
+        # x with result 
+        if ((y & 1) == 1) : 
+            res = (res * x) % p 
+  
+        # y must be even now 
+        y = y >> 1      # y = y/2 
+        x = (x * x) % p 
+          
+    """ retourne (x ** y) mod p """
+    return res 
+       
+      
+     
+""" test de l'exponentiation modulaire avec les différentes implémentations, et l'implémentation python """
+#g,n,N = 2,7,15
+#print(my_expo_mod(g,n,N))
+#print(power(g,n,N))
+#print(pow(g,n,N))
