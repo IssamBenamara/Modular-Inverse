@@ -13,6 +13,8 @@ def range_n(n, start=0):
     """ Return the sequence [start, start+1, ..., start+N-1]. """
     return list(range(start, start+n))
 
+def random_int(_max):
+    return random.randint(0,_max)
 
 def integers(n, min_, max_):
     """ Return sequence of N random integers between min_ and max_ (included).

@@ -132,7 +132,7 @@ def complexityMyGCD( NbTests, intRange ):
 #complexityMyGCD(100000, 1000000)  """ linear / logarithmic at best """
 
 """ Courbe my_inverse par rapport à N """
-def graphMyInverse( intRange ):
+def graphMyInverse( intRange, verbose = False ):
     """
     input :
     
@@ -142,6 +142,7 @@ def graphMyInverse( intRange ):
     
     courbe du temps d'execution de my_inverse en fonction de N ( avec le a généré aléatoirement à chaque fois, N incrémenté de 10 à chaque fois )
     """
+    sys.stdout.write('\n')
     measures = []
     for i in range(0, intRange, 10):
         a , N = randint(0, intRange), i
@@ -150,22 +151,24 @@ def graphMyInverse( intRange ):
         end = time.time()
         measures.append(end-start)
         
-        """ progress bar """
-        sys.stdout.write('\r')
-        # the exact output you're looking for:
-        sys.stdout.write("[%-20s] %d%%" % ('=='*(int(10*(i+1)/intRange)+1), int(100*(i/intRange))))
-        sys.stdout.flush()
-        sleep(0.25)
-        """ progress bar end """
+        if(verbose):
+            """ progress bar """
+            sys.stdout.write('\r')
+            # the exact output you're looking for:
+            sys.stdout.write("[%-20s] %d%%" % ('=='*(int(10*(i+1)/intRange)+1), int(100*(i/intRange))))
+            sys.stdout.flush()
+            sleep(0.25)
+            """ progress bar end """
         
-    sys.stdout.write('\n')
+    if(verbose):
+        sys.stdout.write('\n')
     plt.plot(range(0, intRange, 10), measures)  # on utilise la fonction sinus de Numpy
     plt.ylabel('Execution Time')
     plt.xlabel("N")
     plt.show()
 
 """ Courbe my_cgd par rapport à b """
-def graphMyGCD( intRange ):
+def graphMyGCD( intRange, verbose = False ):
     """
     input :
     
@@ -175,6 +178,7 @@ def graphMyGCD( intRange ):
     
     courbe du temps d'execution de my_inverse en fonction de N ( avec le a généré aléatoirement à chaque fois, N incrémenté de 10 à chaque fois )
     """
+    sys.stdout.write('\n')
     measures = []
     for i in range(0, intRange, 10):
         a , b = randint(0, intRange), i
@@ -183,15 +187,17 @@ def graphMyGCD( intRange ):
         end = time.time()
         measures.append(end-start)
         
-        """ progress bar """
-        sys.stdout.write('\r')
-        # the exact output you're looking for:
-        sys.stdout.write("[%-20s] %d%%" % ('=='*(int(10*(i+1)/intRange)+1), int(100*(i/intRange))))
-        sys.stdout.flush()
-        sleep(0.25)
-        """ progress bar end """
+        if(verbose):
+            """ progress bar """
+            sys.stdout.write('\r')
+            # the exact output you're looking for:
+            sys.stdout.write("[%-20s] %d%%" % ('=='*(int(10*(i+1)/intRange)+1), int(100*(i/intRange))))
+            sys.stdout.flush()
+            sleep(0.25)
+            """ progress bar end """
         
-    sys.stdout.write('\n')
+    if(verbose):
+        ys.stdout.write('\n')
     plt.plot(range(0, intRange, 10), measures)  # on utilise la fonction sinus de Numpy
     plt.ylabel('Execution Time')
     plt.xlabel("N")
