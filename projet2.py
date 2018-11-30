@@ -12,6 +12,7 @@ import projet
 import itertools
 from random import shuffle
 import big_o
+import time
 
 """ test naif de primalité sur un entier N """
 def first_test( N ):
@@ -115,6 +116,7 @@ def isCarmichaelNumber( N ) :
 #print(isCarmichaelNumber(561))
 
 """ generer des entiers Carmichael inférieurs  ou égal à N """
+""" Version débile exponentielle, une meilleure version est proposée en bas  gen_carmichael_comb """  
 def gen_carmichael( N , verbose = False):
     """
     input:
@@ -150,8 +152,6 @@ def gen_carmichael( N , verbose = False):
 """ Test génération de Carmichael : ATTENTION prend du temps quand même ! """    
 #print(gen_carmichael(3000))
 
-from random import randint
-
 """ Lister les nombres premiers inférieurs à N """
 def prime_under( N , verbose = False):
     """
@@ -166,7 +166,7 @@ def prime_under( N , verbose = False):
     if(verbose):
         print("génération des premiers <= "+str(N))
     _primes = []
-    for i in range(N+1):
+    for i in range(2,N+1):
         
         if(verbose):
             """ progress bar """
@@ -260,6 +260,9 @@ def complexity_gen_carmichael_3fp( NbTests, intRange ):
 """ test de gen_carmichael_3fp """
 #print(gen_carmichael_3fp(30000))
 
+
+""" generation de carmichael en utilisant des facteurs """
+
 def gen_carmichael_comb( N , verbose = False):
     """
     input:
@@ -271,22 +274,43 @@ def gen_carmichael_comb( N , verbose = False):
     
     sys.stdout.write('\n')
     
-    liste = prime_under( int(math.sqrt(N)) , verbose = True )
+    liste = prime_under( int(math.sqrt(N)) , verbose = verbose )
+
     if( liste == [] ):
-        return -1, None
+        return []
     perm = []
-    for i in range(1,len(liste)):
-        perm += list(itertools.combinations(liste, i))
-    shuffle(perm)
-
     cars = []
-    for p in perm:
-        x = 1
-        for j in p:
-            x *= j
-        if( x <= N ):
-            if( isCarmichaelNumber(x) ):
-                cars.append((x, p))
-    return [], None
+    for i in range(2,len(liste)):
+        """ optimiser ça !!! car ça prend de la place en mémoire """
+        perm = itertools.combinations(liste, i)
+        
+        for p in perm:
+            x = 1
+            for j in p:
+                x *= j
+            if( x <= N ):
+                if( isCarmichaelNumber(x) ):
+                    cars.append((x, p))
 
-print(gen_carmichael_comb(1000))
+    return cars
+
+""" test de gen_carmichael_comb: plus rapide que l'autre version """
+#print(gen_carmichael_comb(3000, verbose = True))
+
+
+""" le plus grand carmichael en X minutes """
+def biggest_carmichael( minutes ):
+    N = 1000
+    old_cars = None 
+    while(True):
+        start = time.time()
+        cars = gen_carmichael_comb(N, verbose=True)
+        end = time.time()
+        N+=1000
+        if( (end - start) > 60*minutes ):
+            break
+        old_cars = cars
+    numbers = [x[0] for x in old_cars ]
+    return max(numbers)
+    
+print(biggest_carmichael(5))
