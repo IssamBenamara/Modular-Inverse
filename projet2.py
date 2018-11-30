@@ -306,8 +306,10 @@ def biggest_carmichael( minutes ):
         start = time.time()
         cars = gen_carmichael_comb(N, verbose=True)
         end = time.time()
+        delta = end - start
+        print("time for N="+str(N)+" is "+str(delta)+" seconds / "+str(delta/60)+" minutes")
         N+=1000
-        if( (end - start) > 60*minutes ):
+        if( delta > 60*minutes ):
             break
         old_cars = cars
     numbers = [x[0] for x in old_cars ]
