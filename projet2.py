@@ -25,6 +25,8 @@ def first_test( N ):
     output:
     True si N est premier, False sinon
     """
+    if( N < 2 ):
+        return False
     if( N < 4 ):
         if ( N > 1 ):
             return True
@@ -64,7 +66,7 @@ def count_prime_under( N , verbose = False ):
     return _sum
 
 """ test de la fonction comptage """
-#count_prime_under(100)
+#print(count_prime_under(100000,verbose=True))
 
 """ verifier si un nombre est un Carmichael """
 
@@ -329,4 +331,3 @@ def biggest_carmichael( minutes ):
 
 
 
-print(count_prime_under(100000,verbose=True))
