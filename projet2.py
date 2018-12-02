@@ -329,5 +329,64 @@ def biggest_carmichael( minutes ):
 """ test de biggest_carmichael """
 #print(biggest_carmichael(5))
 
+""" Trouver tous les diviseurs d'un nombre, algorithme naif """
+def find_divisors ( N ):
+    """
+    input :
+    N = entier
+    ------------
+    output:
+    div = list des diviseurs de N ( contient aussi  1 et N ) en ordre croissant
+    """
+    div = []
+    for i in range(1,int(N/2)+1):
+        if( N % i == 0 ):
+            div.append(i)
+    div.append(N)
+    
+    return div
+    
+""" Trouver tous les nombres de carmichael de la forme pqr avec p fixé """
+def find_carmichael_pqr( p ):
+    """
+    input:
+    p = entier
+    ----------
+    output:
+    cars = liste contenant des tuples de la forme ( nombre carmichael, ( p, q, r ))
+            contenant tous les nombre carmichael de cette forme p*q*r ( p fixé en entrée )
+    
+    """
+    cars = []
+    # d'après la preuve, h appartient à {2, p-1 }
+    for h in range(2, p ):
+
+        # et on a aussi que  ( q - 1 ) divise ( p -1 )*( p + h )
+        # la liste contient les valeurs ( q - 1 )
+        q_1_list = find_divisors( ( p - 1 )*( p + h ) )
+        
+        qs = [] #extraire les valeurs de q qui sont valides
+        for q_1 in q_1_list:
+            q = q_1 + 1 # pour traiter q et pas q -1      
+            if ( q > p ): # par définition q doit etre supérieur à p
+                if(first_test( q )): # q doit être premier aussi
+                    qs.append( q )
+        
+        for q in qs: # pour chaque q on trouve le r correspondant
+            r = int( ( ( p * q - 1 ) / h ) + 1 )
+            c = p * q * r
+            if( isCarmichaelNumber( c ) ): # on s'assure que le nombre est bien carmichael ( car on peut trouver des nombres non carmichael )
+                cars.append( ( c , ( p, q, r ) ) )
+    return cars
+    
+""" Trouver tous les nombre de carmichael de forme 3qr et 5qr """
+#print(find_carmichael_pqr(3))
+#print(find_carmichael_pqr(5))
+
+
+                
+            
+        
+    
 
 
