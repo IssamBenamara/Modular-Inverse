@@ -34,7 +34,7 @@ def first_test( N ):
     return True
     
 """ comptage des nombres premiers inférieurs à N """
-def count_primal_under( N , verbose = False ):
+def count_prime_under( N , verbose = False ):
     """
     input:
     N = entier
@@ -64,7 +64,7 @@ def count_primal_under( N , verbose = False ):
     return _sum
 
 """ test de la fonction comptage """
-#count_primal_under(100)
+#count_prime_under(100)
 
 """ verifier si un nombre est un Carmichael """
 
@@ -300,8 +300,17 @@ def gen_carmichael_comb( N , verbose = False):
 
 """ le plus grand carmichael en X minutes """
 def biggest_carmichael( minutes ):
+    """
+    input:
+    minutes = nombre de minutes à ne pas dépasser
+    --------------
+
+    output:
+    le plus grand nombre carmichael trouvé en moins de 'minutes' minutes strictement
+    
+    """
     N = 1000
-    old_cars = None 
+    old_cars = None # stocker les carmichael trouvé auparavant ( dans le cas ou la prochaine recherche dépasse 'minutes' on prend en compte ceux la )
     while(True):
         start = time.time()
         cars = gen_carmichael_comb(N, verbose=True)
@@ -312,7 +321,12 @@ def biggest_carmichael( minutes ):
         if( delta > 60*minutes ):
             break
         old_cars = cars
-    numbers = [x[0] for x in old_cars ]
+    numbers = [x[0] for x in old_cars ] # x[0] est le nombre, x[1] tuple des facteurs premiers du nombre
     return max(numbers)
     
-print(biggest_carmichael(5))
+""" test de biggest_carmichael """
+#print(biggest_carmichael(5))
+
+
+
+print(count_prime_under(100000,verbose=True))
