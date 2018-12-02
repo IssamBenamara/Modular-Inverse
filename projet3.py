@@ -32,9 +32,9 @@ def test_fermat( N, k = 4 ):
     a_list = random.sample(range(1, N), k )
 
     for a in a_list:
-        if ( projet.my_expo_mod(a, N - 1, N) != 1 ):
-            return False
-    
+        if( projet.my_gcd( a, N ) == 1 ):
+            if ( projet.my_expo_mod(a, N - 1, N) != 1 ):
+                return False
     return True
     
 """ generer un nombre composé inférieur à N """
