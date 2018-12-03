@@ -8,7 +8,6 @@ Created on Sun Dec  2 16:20:12 2018
 import projet
 import random
 import projet2
-import sys
 
 def is_prime( n, k = 7 ):
    """use Rabin-Miller algorithm to return True (n is probably prime)
@@ -65,9 +64,16 @@ def miller_rabin(n, k=10):
 			return False
 	return True
 
-
+""" Test de primalité de Miller-Rabin """
 def test_miller_rabin( N, T = 7 ):
-    
+    """
+    input:
+    N = entier à tester si premier
+    T = Nombre de de bases a à tester
+    ----------------
+    output:
+    True si N est probablement premier, False si N est composé
+    """
     if ( N < 6 ):  # assuming n >= 0 in all cases... shortcut small cases here
         return [False, False, True, True, False, True][N]
     elif ( N & 1 == 0 ):  # should be faster than n % 2
@@ -88,17 +94,50 @@ def test_miller_rabin( N, T = 7 ):
             if ( b != N - 1 ):
                 return False
     return True
+
+""" test de la fonction test_miller_rabin """
+#
+#carmichaels = projet2.gen_carmichael_comb( 5000 )
+#print("test avec des carmichael")
+#for car in carmichaels:
+#    print(str(car[0])+" : "+str(test_miller_rabin(car[0])))
+#
+#composes = [ gen_compose( 5000 ) for i in range(5) ]
+#print("test avec des composés")
+#for comp in composes:
+#    print(str(comp)+" : "+str(test_miller_rabin(comp)))
+#    
+#aleatoirs = [ random.randint(1, 5000) for i in range(5) ]
+#print("test avec des aléatoires")
+#for al in aleatoirs:
+#    print(str(al)+" : "+str(test_miller_rabin(al)))
+
+""" Estimation experimental du taux d'erreur """
+def proba_erreur_miller_rabin( N, nbrTests, distinct = False ):
+    """
+    input:
+    N = borne sup des entiers à tester
+    nbrTests = nombre d'entiers à tester
+    distinct = si True, le tirage aléatoire des nombres à tester sera sans remise ( aucun nombre n'est testé plus d'une fois )
+    ---------
+    output:
+    probabilité d'erreur ( prédire un premier qui n'est pas premier )
+    """
+    count = 0
+    if( distinct ):
+        echantillon = random.sample(range(1,N+1),nbrTests)
+        for i in echantillon:
+            if( test_miller_rabin(i) ): # si le test de fermat dit "probablement premier"
+                if (  not projet2.first_test(i) ): # on test alors la primalité du nombre
+                    count += 1
+    else:
+        echantillon = range(nbrTests)
+        for i in echantillon:
+            n = random.randint(1,N+1)
+            if( test_miller_rabin(n) ):
+                if (  not projet2.first_test(n) ):
+                    count += 1
+    return count*1.0/nbrTests
     
-for i in range(10000):
-    N = random.randint(1,5000)
-    reality = projet2.first_test(N)
-    mine = test_miller_rabin(N)
-    first = is_prime(N)
-    second = miller_rabin(N)
-    if(not reality):
-        assert(not mine)
-    if(not first):
-        assert(not mine)
-    if(not second):
-        assert(not mine)
-    #print("N : "+str(N)+"\t prime : "+str(reality)+"\t mine : "+str(mine)+"\t first : "+str(first)+"\t second : "+str(second))
+""" test de proba_erreur_fermat """
+#print(proba_erreur_miller_rabin(10000000, 100000, distinct = False))
