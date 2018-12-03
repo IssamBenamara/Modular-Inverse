@@ -25,7 +25,7 @@ def test_fermat( N, k = 4 ):
     if ( N == 2 ):
         return True
         
-    if ( N % 2 == 0 ):
+    if ( N & 1 == 0 ):
         return False
     while( k > N - 1 ):
         k -= 1
