@@ -113,7 +113,7 @@ def test_miller_rabin( N, T = 7 ):
 #    print(str(al)+" : "+str(test_miller_rabin(al)))
 
 """ Estimation experimental du taux d'erreur """
-def proba_erreur_miller_rabin( N, nbrTests, distinct = False ):
+def proba_erreur_miller_rabin( N, nbrTests, T = 7, distinct = False ):
     """
     input:
     N = borne sup des entiers à tester
@@ -127,17 +127,40 @@ def proba_erreur_miller_rabin( N, nbrTests, distinct = False ):
     if( distinct ):
         echantillon = random.sample(range(1,N+1),nbrTests)
         for i in echantillon:
-            if( test_miller_rabin(i) ): # si le test de fermat dit "probablement premier"
+            if( test_miller_rabin( i, T ) ): # si le test miller_rabin dit "probablement premier"
                 if (  not projet2.first_test(i) ): # on test alors la primalité du nombre
                     count += 1
     else:
         echantillon = range(nbrTests)
         for i in echantillon:
             n = random.randint(1,N+1)
-            if( test_miller_rabin(n) ):
+            if( test_miller_rabin( n, T ) ):
                 if (  not projet2.first_test(n) ):
                     count += 1
     return count*1.0/nbrTests
     
-""" test de proba_erreur_fermat """
-#print(proba_erreur_miller_rabin(10000000, 100000, distinct = False))
+""" test de proba_erreur_miller_rabin """
+#while(True):
+#    print(".")
+#    x = proba_erreur_miller_rabin(10000, 10000, T = 3 , distinct = True)
+#    if(x!=0):
+#        print(x)
+    
+def gen_rsa( t, T = 7 ):
+    """
+    input:
+    t = entier positif
+    ---------
+    output:
+    ( N, (p, q) )  tuple, N=p*q et tel que p et q sont dans [ 2^(t-1), 2^(t) ], et p,q probablement premiers selon miller_rabin
+    """
+    
+    while ( True ):
+        p = random.randint(pow(2,t-1),pow(2,t))
+        q = random.randint(pow(2,t-1),pow(2,t))
+        if ( test_miller_rabin(p,T) and test_miller_rabin(q, T) ):
+            return ( p*q, ( p, q ) )
+
+""" test de gen_rsa """            
+#print(gen_rsa(20))
+    
