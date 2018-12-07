@@ -69,17 +69,6 @@ def count_prime_under( N , verbose = False ):
 #print(count_prime_under(100000,verbose=True))
 
 """ verifier si un nombre est un Carmichael """
-
-""" 
-
-!!!!
-
-CETTE FONCTION N'EST PAS CORRECTE CERTAINS NOMBRES SONT CONSIDERE COMME CORRECTE ALORS QUE NON, COMME 563 IL FAUT LA CORRIGER 
-!
-!!!
-
-
-"""
 def isCarmichaelNumber( N ) : 
     """
     input:
