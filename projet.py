@@ -15,7 +15,6 @@ import time
 
 
 def my_gcd( a, b ):
-    """ http://python.jpvweb.com/python/mesrecettespython/doku.php?id=pgcd_ppcm """
     """ 
     input :
 
@@ -36,11 +35,6 @@ def my_gcd( a, b ):
 #print(my_gcd(11,-4))
     
 def my_inverse( a, N ):
-    """ ab % N = 1 """
-    """  https://www.geeksforgeeks.org/multiplicative-inverse-under-modulo-m/ 
-        pour d'autres méthodes
-        Time Complexity of this method is O(N)
-    """
     """ 
     input :
 
@@ -69,12 +63,6 @@ def my_inverse( a, N ):
 #except ValueError as err:
 #    print(err.args)
 #
-
-""" my_inverse One liner BITCH """    
-#A = 3
-#n = 7
-#MMI = lambda A, n,s=1,t=0,N=0: (n < 2 and t%N or MMI(n, A%n, t, s-A//n*t, N or n),-1)[n<1]
-#print(MMI(A,n))
 
     
 """ Juste pour l'utiliser dans complexity, car ça requiert une fonction a une seule entrée  """
@@ -237,7 +225,6 @@ def my_expo_mod( g, n, N ):
     
 """ ecriture alternative de l'exponentiation modulaire """
 def power(x, y, p) : 
-    """ https://www.geeksforgeeks.org/modular-exponentiation-power-in-modular-arithmetic/ """
     res = 1     # Initialize result 
     # Update x if it is more 
     # than or equal to p 
